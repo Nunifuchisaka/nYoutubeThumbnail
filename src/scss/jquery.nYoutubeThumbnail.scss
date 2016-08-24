@@ -1,0 +1,19 @@
+@import "compass";
+
+.n_video_1 {
+  position: relative;
+  @at-root {
+    #{&}__poster {
+      display: block;
+      position: absolute;
+      top: 0;
+      left: 0;
+      background-color: #fff;
+      cursor: pointer;
+      //pointer-events: none;
+      img {
+        display: block;
+      }
+    }
+  }
+}
