@@ -12,8 +12,10 @@
 
 </style>
 
+<script src="//cdnjs.cloudflare.com/ajax/libs/lodash.js/4.15.0/lodash.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/backbone.js/1.3.3/backbone-min.js"></script>
 <script src="../dst/jquery.nYoutubeThumbnail.min.sourcemap.js"></script>
 <script src="demo.js"></script>
 
@@ -24,22 +26,30 @@
 <h1>nYoutubeThumbnail</h1>
 
 
-<div id="demo-1" class="n_video_1" data-poster="demo.jpg">
-  <iframe width="610" height="333" src="https://www.youtube.com/embed/L_SbDaJYV80?rel=0&amp;showinfo=0&amp;enablejsapi=1" frameborder="0" allowfullscreen></iframe>
-</div>
-
-<div id="demo-2" class="n_video_1" data-poster="demo-2.jpg">
-  <iframe width="639" height="419" src="https://www.youtube.com/embed/yMU6lnptNPo?rel=0&amp;showinfo=0&amp;enablejsapi=1" frameborder="0" allowfullscreen></iframe>
-</div>
+<div id="demo-1" class="n_video_1"><div id="demo-1__player"></div></div>
 
 <script>
 $(function(){
   
-  $(".n_video_1").nYoutubeThumbnail({
-    
+  window.nYoutube1 = new nYoutube({
+    el: '#demo-1',
+    width: 610,
+    height: 333,
+    videoID: 'L_SbDaJYV80',
+    poster: 'demo.jpg'
   });
   
 });
+
+//YouTube iFrame Player API
+var tag=document.createElement('script');
+tag.src="//www.youtube.com/iframe_api";
+var firstScriptTag=document.getElementsByTagName('script')[0];
+firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+function onYouTubeIframeAPIReady() {
+  nYoutube1.trigger("start");
+}
 </script>
 
 

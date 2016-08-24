@@ -11,7 +11,61 @@
 ;(function($, window, document, undefined){
 'use strict';
 
+window.nYoutube = Backbone.View.extend({
+  
+  initialize: function( opts ) {
+    _.bindAll(this, 'onYouTubeIframeAPIReady', 'onStateChange');
+    this.opts = _.extend({
+      width: 640,
+      height: 390
+    }, opts);
+    
+    this.player;
+    this.play_once = false;
+    
+    this.on('start', this.onYouTubeIframeAPIReady);
+  },
+  
+  onYouTubeIframeAPIReady: function() {
+    var self = this;
+    var id = this.$el.attr('id');
+    this.player = new YT.Player(id + "__player", {
+      width: this.opts.width,
+      height: this.opts.height,
+      videoId: this.opts.videoID,
+      events: {
+        'onStateChange': this.onStateChange
+      },
+      playerVars: {
+        rel: 0,
+        showinfo: 0,
+        wmode: "transparent"
+      }
+    });
+    
+    this.$el.append( $('<div class="n_video_1__poster"><img src="' + this.opts.poster + '" /></div>') );
+    this.$poster = this.$el.find(".n_video_1__poster");
+    this.$poster.click(function(){
+      self.$poster.remove();
+      console.log("再生");
+      self.player.playVideo();
+      //self.iframe.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
+    });
+  },
+  
+  onStateChange: function(e) {
+    var status = e.data;
+    if( status == YT.PlayerState.BUFFERING && !this.play_once ) {
+      this.$poster.remove();
+      this.play_once = true;
+    }
+  }
+  
+});
+
+
 //
+/*
 $.fn.nYoutubeThumbnail = function( opts ){
   var self = this;
   
@@ -23,6 +77,7 @@ $.fn.nYoutubeThumbnail = function( opts ){
     new nYoutubeThumbnail(opts);
   });
 }
+*/
 
 
 /*
@@ -36,7 +91,8 @@ $.fn.nYoutubeThumbnail = function( opts ){
 ## nYoutubeThumbnail
 */
 
-function nYoutubeThumbnail( opts ) {
+/*
+function nYoutubeThumbnail(opts){
   var self = this;
   this.opts = $.extend({
     
@@ -52,5 +108,14 @@ function nYoutubeThumbnail( opts ) {
     self.iframe.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
   });
 }
+
+nYoutubeThumbnail.prototype = {
+  
+  start: function(){
+    
+  }
+  
+}
+*/
 
 })(jQuery, this, this.document);

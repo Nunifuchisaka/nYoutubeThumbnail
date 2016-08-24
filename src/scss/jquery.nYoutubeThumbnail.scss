@@ -2,6 +2,12 @@
 
 .n_video_1 {
   position: relative;
+  display: inline-block;
+  &:hover {
+    .n_video_1__poster img {
+      @include opacity(.7);
+    }
+  }
   @at-root {
     #{&}__poster {
       display: block;
@@ -10,7 +16,7 @@
       left: 0;
       background-color: #fff;
       cursor: pointer;
-      //pointer-events: none;
+      pointer-events: none;
       img {
         display: block;
       }
